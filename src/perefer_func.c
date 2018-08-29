@@ -21,19 +21,20 @@ void	ft_mk_link(char *str, t_farm *farm)
 void	ft_add_room(char *str, t_farm *farm)
 {
 	t_room	*room;
-	char *line;
 
-	line = str;
 	if (!(room = (t_room*)malloc(sizeof(t_room))))
 		return ;
 	ft_write_name(room, str);
-	line = ft_strchr(line, ' ');
-	room->pos.x = ft_atoi(line);
-	line++;
-	line = ft_strchr(line, ' ');
-	room->pos.y = ft_atoi(line);
-	ft_push(&farm->rooms, room->name, room->pos);
+	str = ft_strchr(str, ' ');
+	room->pos.x = ft_atoi(str);
+	str++;
+	str = ft_strchr(str, ' ');
+	room->pos.y = ft_atoi(str);
+	printf("before push\n");
+	ft_push(&farm->rooms, room);
+	printf("DONE\n");
 	//free(room);
+	//ft_strdel(&str);
 }
 
 void	ft_filter_lines(char *str, t_farm *farm)
@@ -87,5 +88,4 @@ void	ft_write_name(t_room *room, char *str)
 		i++;
 	}
 	room->name[i] = '\0';
-	ft_strdel(&str);
 }

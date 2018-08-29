@@ -30,7 +30,6 @@ int main(void)
 {
 	char	*str;
 	t_farm	farm;
-	// t_lst	*list;
 
 	farm.rooms = NULL;
 	ft_bzero(&farm, sizeof(t_farm));
@@ -38,24 +37,27 @@ int main(void)
 	{
 		if (!farm.ants)
 			ft_num_ant(str, &farm);
-		if (str && !ft_strncmp(str, "##start", 7))
+		else if (str && !ft_strncmp(str, "##start", 7))
 			ft_parse_room(str, &farm.start);
 		else if (str && !ft_strncmp(str, "##end", 5))
 			ft_parse_room(str, &farm.end);
 		else
+		{
+			printf("TYT\n");
 			ft_filter_lines(str, &farm);
-		
+		}
 		if (!ft_strncmp(str, "stop", 4))
 		{
 			break;
 		}
-		while (farm.rooms != NULL)
-		{	
-			printf("here\n");
-			printf("LIST DAta %s, %d, %d\n", farm.rooms->room->name, farm.rooms->room->pos.x, farm.rooms->room->pos.y);
-			farm.rooms = farm.rooms->next;
-		}
+		
 		ft_strdel(&str);
+	}
+	while (farm.rooms != NULL)
+	{	
+		printf("here\n");
+		printf("LIST DAta %s, %d, %d\n", farm.rooms->room->name, farm.rooms->room->pos.x, farm.rooms->room->pos.y);
+		farm.rooms = farm.rooms->next;
 	}
 	system("leaks lem-in");
 	return (0);

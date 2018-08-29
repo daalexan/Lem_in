@@ -12,30 +12,26 @@
 
 #include "lemin.h"
 
-void	ft_push(t_lst **head, char *name, t_pos pos)
+void	ft_push(t_lst **head, t_room *room)
 {
-	t_room	*room;
 	t_lst	*curr;
 
 	if (!(curr = (t_lst*)malloc(sizeof(t_lst))))
- 		return ;
- 	if (!(room = (t_room*)malloc(sizeof(t_room))))
- 		return ;
+		return ;
 	if ((*head) == NULL)
 	{
-		room->name = name;
-		room->pos = pos;
-		(*head)->room = room;
-		(*head)->next = NULL;
- 	}
- 	else
- 	{
- 		while ((*head)->next != NULL)
- 			(*head) = (*head)->next;
- 		room->name = name;
-		room->pos = pos;
+		printf("data %s %d %d\n", room->name, room->pos.x, room->pos.y);
 		curr->room = room;
- 		curr->next = NULL;
- 		(*head)->next = curr;
- 	}
+		curr->next = NULL;
+		(*head) = curr;
+	}
+	else
+	{	
+		while ((*head)->next != NULL)
+			(*head) = (*head)->next;
+		curr->room = room;
+		curr->next = NULL;
+		(*head)->next = curr;
+	}
+	printf("END\n");
 }

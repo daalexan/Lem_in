@@ -59,6 +59,6 @@ typedef	struct		s_farm
 void				ft_write_name(t_room *room, char *str);
 void				ft_filter_lines(char *str, t_farm *farm);
 void				ft_parse_room(char *str, t_room *room);
-void				ft_push(t_lst **head, char *name, t_pos pos);
+void				ft_push(t_lst **head, t_room *room);
 
 #endif
