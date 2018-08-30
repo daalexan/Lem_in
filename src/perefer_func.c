@@ -14,27 +14,58 @@
 
 void	ft_mk_link(char *str, t_farm *farm)
 {
-	(void)str;
-	(void)farm;
+	t_link	*lk;
+
+	if (!(lk = (t_link*)malloc(sizeof(t_link))))
+		return ;
+	lk->curr = ft_atoi(str);
+	str = ft_strchr(str, '-');
+	str++;
+	lk->next = ft_atoi(str);
+	ft_lkpush(&farm->links, lk);
 }
 
-void	ft_add_room(char *str, t_farm *farm)
+void	ft_check_line(char *str)
 {
-	t_room	*room;
+	int	i;
 
-	if (!(room = (t_room*)malloc(sizeof(t_room))))
-		return ;
-	ft_write_name(room, str);
+	i = 1;
+	while (str[i] != '\0' && str[i] != ' ')
+	{
+		if (str[i] < 48 || str[i] > 59)
+		{
+			ft_putstr("ERROR\n");
+			exit(0);
+		}
+		i++;
+	}
+}
+
+void	ft_valid_room(char *line)
+{
+	int		nbr;
+	char	*str;
+
+	str = line;
 	str = ft_strchr(str, ' ');
-	room->pos.x = ft_atoi(str);
+	ft_check_line(str);
+	nbr = ft_atoi(str);
+	printf("num %d\n", nbr);
+	if (nbr < 0 || nbr > 2147483647)
+	{
+		ft_putstr("ERROR\n");
+		return ;
+	}
 	str++;
 	str = ft_strchr(str, ' ');
-	room->pos.y = ft_atoi(str);
-	printf("before push\n");
-	ft_push(&farm->rooms, room);
-	printf("DONE\n");
-	//free(room);
-	//ft_strdel(&str);
+	ft_check_line(str);
+	nbr = ft_atoi(str);
+	printf("num %d\n", nbr);
+	if (nbr < 0 || nbr > 2147483647)
+	{
+		ft_putstr("ERROR\n");
+		return ;
+	}
 }
 
 void	ft_filter_lines(char *str, t_farm *farm)
@@ -46,32 +77,57 @@ void	ft_filter_lines(char *str, t_farm *farm)
 	i = 0;
 	link = 0;
 	room = 0;
-	while (str[i])
+	while (str[i++])
 	{
 		if (str[i] == ' ')
 			room++;
 		else if (str[i] == '-')
 			link++;
-		i++;
 	}
 	if (link == 1)
 		ft_mk_link(str, farm);
 	else if (room == 2)
-		ft_add_room(str, farm);
+	{
+		ft_valid_room(str);
+		ft_parse_room(str, farm, NULL);
+	}
+	else
+	{
+		ft_putstr("ERROR\n");
+		exit(0);
+	}
 }
 
-void	ft_parse_room(char *str, t_room *room)
+void	ft_parse_room(char *str, t_farm *farm, t_room *room)
 {
-	get_next_line(0, &str);
-	ft_write_name(room, str);
-	str = ft_strchr(str, ' ');
-	room->pos.x = ft_atoi(str);
-	str++;
-	str = ft_strchr(str, ' ');
-	room->pos.y = ft_atoi(str);
+	t_room	*rooms;
+
+	if (farm)
+	{
+		if (!(rooms = (t_room*)malloc(sizeof(t_room))))
+			return ;
+		ft_write_name(rooms, str, 0);
+		str = ft_strchr(str, ' ');
+		rooms->pos.x = ft_atoi(str);
+		str++;
+		str = ft_strchr(str, ' ');
+		rooms->pos.y = ft_atoi(str);
+		ft_push(&farm->rooms, rooms);
+	}
+	else
+	{
+		get_next_line(0, &str);
+		ft_valid_room(str);
+		ft_write_name(room, str, 1);
+		str = ft_strchr(str, ' ');
+		room->pos.x = ft_atoi(str);
+		str++;
+		str = ft_strchr(str, ' ');
+		room->pos.y = ft_atoi(str);
+	}
 }
 
-void	ft_write_name(t_room *room, char *str)
+void	ft_write_name(t_room *room, char *str, int flag)
 {
 	int len;
 	int i;
@@ -88,4 +144,37 @@ void	ft_write_name(t_room *room, char *str)
 		i++;
 	}
 	room->name[i] = '\0';
+	if (flag == 1)
+		ft_strdel(&str);
 }
+
+///
+///	this two functions is merged into one function named ft_parse_room
+///
+
+// void	ft_add_room(char *str, t_farm *farm)
+// {
+// 	t_room	*room;
+
+// 	if (!(room = (t_room*)malloc(sizeof(t_room))))
+// 		return ;
+// 	ft_write_name(room, str, 0);
+// 	str = ft_strchr(str, ' ');
+// 	room->pos.x = ft_atoi(str);
+// 	str++;
+// 	str = ft_strchr(str, ' ');
+// 	room->pos.y = ft_atoi(str);
+// 	ft_push(&farm->rooms, room);
+// }
+
+// void	ft_parse_room(char *str, t_room *room)
+// {
+// 	get_next_line(0, &str);
+// 	ft_write_name(room, str, 1);
+// 	str = ft_strchr(str, ' ');
+// 	room->pos.x = ft_atoi(str);
+// 	str++;
+// 	str = ft_strchr(str, ' ');
+// 	room->pos.y = ft_atoi(str);
+// }
+

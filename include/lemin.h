@@ -15,50 +15,52 @@
 
 # include "libft.h"
 # include <stdlib.h>
-# include <stdio.h>
+# include <stdio.h>		//delete
 
-typedef struct		s_link
+typedef struct			s_link
 {
-	int				curr;
-	int				next;
-}					t_link;
+	int					curr;
+	int					next;
+}						t_link;
 
-typedef	struct		s_pos
+typedef	struct			s_pos
 {
-	int				x;
-	int				y;
-}					t_pos;
+	int					x;
+	int					y;
+}						t_pos;
 
-typedef struct		s_room
+typedef struct			s_room
 {
-	char			*name;
-	t_pos			pos;
-}					t_room;
+	char				*name;
+	t_pos				pos;
+}						t_room;
 
-typedef	struct		s_lst
+typedef	struct			s_lst
 {
-	t_room			*room;
-	struct s_lst	*next;
-}					t_lst;
+	t_room				*room;
+	struct s_lst		*next;
+}						t_lst;
 
 typedef	struct			s_lstlink
 {
-	t_link				link;
+	t_link				*link;
 	struct s_lstlink	*next;
 }						t_lstlink;
 
-typedef	struct		s_farm
+typedef	struct			s_farm
 {
-	int				ants;
-	t_room			start;
-	t_room			end;
-	t_lst			*rooms;
-	t_link			*links;
-}					t_farm;
+	int					ants;
+	t_room				start;
+	t_room				end;
+	t_lst				*rooms;
+	t_lstlink			*links;
+}						t_farm;
 
-void				ft_write_name(t_room *room, char *str);
-void				ft_filter_lines(char *str, t_farm *farm);
-void				ft_parse_room(char *str, t_room *room);
-void				ft_push(t_lst **head, t_room *room);
+void					ft_write_name(t_room *room, char *str, int flag);
+void					ft_filter_lines(char *str, t_farm *farm);
+void					ft_parse_room(char *str, t_farm *farm, t_room *room);
+void					ft_push(t_lst **head, t_room *room);
+void					ft_mem_free(t_farm	*farm);
+void					ft_lkpush(t_lstlink **head, t_link *lk);
 
 #endif
