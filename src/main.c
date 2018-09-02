@@ -82,7 +82,7 @@ int main(void)
 		{
 			if (!ft_strncmp(str, "stop", 4))	
 				break;
-			ft_filter_lines(str, &farm);
+			ft_filter_lines(str, &farm, 0);
 		}
 		ft_strdel(&str);
 	}

@@ -41,16 +41,36 @@ void	ft_check_line(char *str)
 	}
 }
 
+void	ft_check_neg(char *str)
+{
+	int		i;
+	int		nbr;
+
+	i = 0;
+	nbr = 0;
+	while (str[i++])
+	{
+		if (str[i] == ' ')
+			nbr++;
+	}
+	if (nbr != 2)
+	{
+		ft_putstr("ERROR\n");
+		exit(0);
+	}
+}
+
 void	ft_valid_room(char *line)
 {
 	int		nbr;
 	char	*str;
-
+	
+	nbr = 0;
 	str = line;
+	ft_check_neg(str);
 	str = ft_strchr(str, ' ');
 	ft_check_line(str);
 	nbr = ft_atoi(str);
-	printf("num %d\n", nbr);
 	if (nbr < 0 || nbr > 2147483647)
 	{
 		ft_putstr("ERROR\n");
@@ -60,7 +80,6 @@ void	ft_valid_room(char *line)
 	str = ft_strchr(str, ' ');
 	ft_check_line(str);
 	nbr = ft_atoi(str);
-	printf("num %d\n", nbr);
 	if (nbr < 0 || nbr > 2147483647)
 	{
 		ft_putstr("ERROR\n");
@@ -68,20 +87,27 @@ void	ft_valid_room(char *line)
 	}
 }
 
-void	ft_filter_lines(char *str, t_farm *farm)
+void	ft_check_comment(char *str)
+{
+	if (str[0] != '#')
+	{
+		ft_putstr("ERROR\n");
+		exit(0);
+	}
+}
+
+void	ft_filter_lines(char *str, t_farm *farm, int i)
 {
 	int room;
 	int link;
-	int i;
 
-	i = 0;
 	link = 0;
 	room = 0;
 	while (str[i++])
 	{
 		if (str[i] == ' ')
 			room++;
-		else if (str[i] == '-')
+		else if (str[i] == '-' && str[i - 1] != ' ')
 			link++;
 	}
 	if (link == 1)
@@ -92,10 +118,7 @@ void	ft_filter_lines(char *str, t_farm *farm)
 		ft_parse_room(str, farm, NULL);
 	}
 	else
-	{
-		ft_putstr("ERROR\n");
-		exit(0);
-	}
+		ft_check_comment(str);
 }
 
 void	ft_parse_room(char *str, t_farm *farm, t_room *room)
@@ -118,7 +141,7 @@ void	ft_parse_room(char *str, t_farm *farm, t_room *room)
 	{
 		get_next_line(0, &str);
 		ft_valid_room(str);
-		ft_write_name(room, str, 1);
+		ft_write_name(room, str, 0);
 		str = ft_strchr(str, ' ');
 		room->pos.x = ft_atoi(str);
 		str++;
