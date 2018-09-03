@@ -57,6 +57,20 @@ void	ft_valid_stend(char *str, int i)
 	}
 }
 
+void	ft_check_comments(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_strncmp(str, "##start", 7))
+	if (!ft_strncmp(str, "##end", 5))
+	while (str[i] != '\0')
+	{
+		if ()
+		i++;
+	}
+}
+
 int main(void)
 {
 	char	*str;
@@ -66,7 +80,9 @@ int main(void)
 	ft_bzero(&farm, sizeof(t_farm));
 	while (get_next_line(0, &str) > -1)
 	{
-		if (!farm.ants)
+		if (str[0] == '#')
+			ft_check_comments(str);
+		else if (!farm.ants)
 			ft_num_ant(str, &farm);
 		else if (str && !ft_strncmp(str, "##start", 7))
 		{

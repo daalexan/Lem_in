@@ -141,7 +141,7 @@ void	ft_parse_room(char *str, t_farm *farm, t_room *room)
 	{
 		get_next_line(0, &str);
 		ft_valid_room(str);
-		ft_write_name(room, str, 0);
+		ft_write_name(room, str, 1);
 		str = ft_strchr(str, ' ');
 		room->pos.x = ft_atoi(str);
 		str++;
