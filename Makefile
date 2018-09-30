@@ -23,15 +23,18 @@ CC = gcc
 
 LIB_FILES = ./include/libft/
 FILLER_FILES =  src/main.c \
+				src/lists.c \
+				src/ft_findway.c \
 				src/perefer_func.c \
-				src/lists.c
+				src/ft_validation.c \
+				src/ft_print_ants.c
 				
 OBJ = $(FILLER_FILES:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIB_FILES)libft.a
-	$(CC) -o $(NAME) $(OBJ) $(LIB_FILES)*.o
+	$(CC) -ggdb3 -o $(NAME) $(OBJ) $(LIB_FILES)*.o
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER) -I $(FILL_HEADER)
