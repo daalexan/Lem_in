@@ -92,7 +92,6 @@ void	ft_fill_ants(t_way *way)
 
 	i = 0;
 	j = 0;
-	way->nbr_map = 3;
 	if (!(ants = (t_ant*)malloc(sizeof(t_ant) * way->ant)))
 		return ;
 	while (i < way->ant)

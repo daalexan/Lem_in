@@ -19,20 +19,27 @@ static int		ft_check_link(t_farm *farm, t_link *lk)
 
 	show = 0;
 	begin = farm->rooms;
-	if (!ft_strcmp(farm->start.name, lk->curr))
+	if (!ft_strcmp(farm->start.name, lk->curr) || !ft_strcmp(farm->start.name, lk->nex))
 		show++;
-	if (!ft_strcmp(farm->end.name, lk->nex))
+	if (!ft_strcmp(farm->end.name, lk->nex) || !ft_strcmp(farm->end.name, lk->curr))
 		show++;
-	while (begin != NULL)
+	while (begin != NULL && show != 2)
 	{
-		// printf("%s = %s\n", begin->room->name, lk->curr);
-		// printf("%s = %s\n", begin->room->name, lk->nex);
+	//	printf("%s = %s\n", begin->room->name, lk->curr);
+	//	printf("%s = %s\n", begin->room->name, lk->nex);
 		if (!ft_strcmp(begin->room->name, lk->curr))
+		{
+			//printf("++\n");
 			show++;
+		}
 		if (!ft_strcmp(begin->room->name, lk->nex))
+		{
+		//	printf("++\n");
 			show++;
+		}
 		begin = begin->next;
 	}
+//	printf("SHow = %d\n", show);
 	return ((show == 2) ? (1) : (0));
 }
 
@@ -73,12 +80,11 @@ void	ft_mk_link(char *str, t_farm *farm)
 		arr[i++] = *str++;
 	arr[i] = '\0';
 	lk->nex = arr;
-
 	if (ft_check_link(farm, lk))
 		ft_lkpush(&farm->links, lk);
 	else
 	{
-		ft_putstr("ERROR WITH LINK\n");
+		ft_putstr("Tyt ERROR WITH LINK\n");
 		exit(0);
 	}
 }
