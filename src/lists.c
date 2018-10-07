@@ -73,26 +73,26 @@ void	ft_mem_free(t_farm	*farm)
 
 	while (farm->links != NULL)
 	{
-		printf("before -> curr: %s nex: %s\n", farm->links->link->curr, farm->links->link->curr);
+		//printf("Here\n");
+	//	printf("before -> curr: %s nex: %s\n", farm->links->link->curr, farm->links->link->nex);
 		lnk = farm->links;
 		free(lnk->link->curr);
 		free(lnk->link->nex);
 		free(lnk);
-		printf("after -> curr: %s nex: %s\n", farm->links->link->curr, farm->links->link->curr);
+	//	printf("after -> curr: %s nex: %s\n", farm->links->link->curr, farm->links->link->nex);
 		farm->links = farm->links->next;
 	}
 	while (farm->rooms != NULL)
 	{
-		printf("name: %s x: %d y: %d\n", farm->rooms->room->name, farm->rooms->room->pos.x, farm->rooms->room->pos.y);
+	//	printf("ROOM FrEE\n");
+	//	printf("name: %s x: %d y: %d\n", farm->rooms->room->name, farm->rooms->room->pos.x, farm->rooms->room->pos.y);
 		fr = farm->rooms;
 		ft_strdel(&fr->room->name);
 		free(fr->room);
 		free(fr);
-		printf("name: %s x: %d y: %d\n", farm->rooms->room->name, farm->rooms->room->pos.x, farm->rooms->room->pos.y);
+		//printf("name: %s x: %d y: %d\n", farm->rooms->room->name, farm->rooms->room->pos.x, farm->rooms->room->pos.y);
 		farm->rooms = farm->rooms->next;
 	}
-	free(farm->start.name);
-	free(farm->end.name);	
 }
 
 static int	ft_lk_exist(t_lstlink **head, t_link *lk)

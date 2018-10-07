@@ -12,36 +12,36 @@
 
 #include "lemin.h"
 
-static int		ft_check_link(t_farm *farm, t_link *lk)
-{
-	t_lst	*begin;
-	int		show;
+// static int		ft_check_link(t_farm *farm, t_link *lk)
+// {
+// 	t_lst	*begin;
+// 	int		show;
 
-	show = 0;
-	begin = farm->rooms;
-	if (!ft_strcmp(farm->start.name, lk->curr) || !ft_strcmp(farm->start.name, lk->nex))
-		show++;
-	if (!ft_strcmp(farm->end.name, lk->nex) || !ft_strcmp(farm->end.name, lk->curr))
-		show++;
-	while (begin != NULL && show != 2)
-	{
-	//	printf("%s = %s\n", begin->room->name, lk->curr);
-	//	printf("%s = %s\n", begin->room->name, lk->nex);
-		if (!ft_strcmp(begin->room->name, lk->curr))
-		{
-			//printf("++\n");
-			show++;
-		}
-		if (!ft_strcmp(begin->room->name, lk->nex))
-		{
-		//	printf("++\n");
-			show++;
-		}
-		begin = begin->next;
-	}
-//	printf("SHow = %d\n", show);
-	return ((show == 2) ? (1) : (0));
-}
+// 	show = 0;
+// 	begin = farm->rooms;
+// 	if (!ft_strcmp(farm->start.name, lk->curr) || !ft_strcmp(farm->start.name, lk->nex))
+// 		show++;
+// 	if (!ft_strcmp(farm->end.name, lk->nex) || !ft_strcmp(farm->end.name, lk->curr))
+// 		show++;
+// 	while (begin != NULL && show != 2)
+// 	{
+// 		//printf("%s = %s\n", begin->room->name, lk->curr);
+// 		//printf("%s = %s\n", begin->room->name, lk->nex);
+// 		if (!ft_strcmp(begin->room->name, lk->curr))
+// 		{
+// 			//printf("++\n");
+// 			show++;
+// 		}
+// 		if (!ft_strcmp(begin->room->name, lk->nex))
+// 		{
+// 		//	printf("++\n");
+// 			show++;
+// 		}
+// 		begin = begin->next;
+// 	}
+// 	//printf("SHow = %d\n", show);
+// 	return ((show == 2) ? (1) : (0));
+// }
 
 char	*ft_parse_link(char *str, int c)
 {
@@ -102,6 +102,7 @@ void	ft_filter_lines(char *str, t_farm *farm, int *valid)
 	else if (link == 1 && *valid != 3)
 	{
 		ft_putstr("ERROR\n");
+		system("leaks lem-in");
 		exit(0);
 	}
 	else if (room == 2)
@@ -109,40 +110,39 @@ void	ft_filter_lines(char *str, t_farm *farm, int *valid)
 		ft_valid_room(str);
 		ft_parse_room(str, farm, NULL);
 	}
-	else
-		ft_check_comment(str);
+	// else
+	// 	ft_check_comment(str);
 }
 
-void	ft_parse_room(char *str, t_farm *farm, t_room *room)
-{
-	t_room	*rooms;
+// void	ft_parse_room(char *str, t_farm *farm, t_room *room)
+// {
+// 	t_room	*rooms;
 
-	if (farm)
-	{
-		if (!(rooms = (t_room*)malloc(sizeof(t_room))))
-			return ;
-		ft_write_name(rooms, str, 1);
-		str = ft_strchr(str, ' ');
-		rooms->pos.x = ft_atoi(str);
-		str++;
-		str = ft_strchr(str, ' ');
-		rooms->pos.y = ft_atoi(str);
-		if (ft_push(&farm->rooms, rooms))
-			farm->roomnumb += 1;
-		free(room);
-	}
-	else
-	{
-		get_next_line(0, &str);
-		ft_valid_room(str);
-		ft_write_name(room, str, 0);
-		str = ft_strchr(str, ' ');
-		room->pos.x = ft_atoi(str);
-		str++;
-		str = ft_strchr(str, ' ');
-		room->pos.y = ft_atoi(str);
-	}
-}
+// 	if (farm)
+// 	{
+// 		if (!(rooms = (t_room*)malloc(sizeof(t_room))))
+// 			return ;
+// 		ft_write_name(rooms, str, 1);
+// 		str = ft_strchr(str, ' ');
+// 		rooms->pos.x = ft_atoi(str);
+// 		str++;
+// 		str = ft_strchr(str, ' ');
+// 		rooms->pos.y = ft_atoi(str);
+// 		if (ft_push(&farm->rooms, rooms))
+// 			farm->roomnumb += 1;
+// 	}
+// 	else
+// 	{
+// 		get_next_line(0, &str);
+// 		ft_valid_room(str);
+// 		ft_write_name(room, str, 0);
+// 		str = ft_strchr(str, ' ');
+// 		room->pos.x = ft_atoi(str);
+// 		str++;
+// 		str = ft_strchr(str, ' ');
+// 		room->pos.y = ft_atoi(str);
+// 	}
+// }
 
 void	ft_write_name(t_room *room, char *str, int flag)
 {
@@ -162,36 +162,5 @@ void	ft_write_name(t_room *room, char *str, int flag)
 	}
 	room->name[i] = '\0';
 	if (flag == 0)
-		(void)flag;//ft_strdel(&str);
+		ft_strdel(&str);
 }
-
-///
-///	this two functions is merged into one function named ft_parse_room
-///
-
-// void	ft_add_room(char *str, t_farm *farm)
-// {
-// 
-// // 	t_room	*room;
-// 	if (!(room = (t_room*)malloc(sizeof(t_room))))
-// 		return ;
-// 	ft_write_name(room, str, 0);
-// 	str = ft_strchr(str, ' ');
-// 	room->pos.x = ft_atoi(str);
-// 	str++;
-// 	str = ft_strchr(str, ' ');
-// 	room->pos.y = ft_atoi(str);
-// 	ft_push(&farm->rooms, room);
-// }
-
-// void	ft_parse_room(char *str, t_room *room)
-// {
-// 	get_next_line(0, &str);
-// 	ft_write_name(room, str, 1);
-// 	str = ft_strchr(str, ' ');
-// 	room->pos.x = ft_atoi(str);
-// 	str++;
-// 	str = ft_strchr(str, ' ');
-// 	room->pos.y = ft_atoi(str);
-// }
-

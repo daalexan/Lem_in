@@ -52,6 +52,11 @@ void	ft_valid_room(char *line)
 	
 	nbr = 0;
 	str = line;
+	if (str[0] == 'L')
+	{
+		ft_putstr("ERROR\n");
+		return ;
+	}
 	ft_check_neg(str);
 	str = ft_strchr(str, ' ');
 	ft_check_line(str);

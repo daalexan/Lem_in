@@ -41,25 +41,25 @@ void	ft_num_ant(char *str, t_farm *farm, int *validation)
 	}
 }
 
-void	ft_valid_stend(char *str, int i)
-{
-	if (i == 1)
-	{
-		if (str[7] != '\0')
-		{
-			printf("ERROR\n");
-			exit(0);
-		}
-	}
-	else if (i == 0)
-	{
-		if (str[5] != '\0')
-		{
-			printf("ERROR\n");
-			exit(0);
-		}
-	}
-}
+// void	ft_valid_stend(char *str, int i)
+// {
+// 	if (i == 1)
+// 	{
+// 		if (str[7] != '\0')
+// 		{
+// 			printf("ERROR\n");
+// 			exit(0);
+// 		}
+// 	}
+// 	else if (i == 0)
+// 	{
+// 		if (str[5] != '\0')
+// 		{
+// 			printf("ERROR\n");
+// 			exit(0);
+// 		}
+// 	}
+// }
 
 void	ft_begin(char *str, t_farm *farm, int *validation)
 {
@@ -81,7 +81,7 @@ void	ft_begin(char *str, t_farm *farm, int *validation)
 		}
 		else
 		{
-			ft_putstr("ERROR\n");
+			ft_putstr("ERROR 1\n");
 			exit(0);
 		}
 	}
@@ -94,37 +94,52 @@ int	ft_check_start(char *str)
 	if (str[0] == '#' && str[1] == '#')
 	{
 		if (str && !ft_strncmp(str, "##start", 7))
+		{
+			ft_strdel(&str);
+			ft_putstr("ERROR 1\n");
 			return (1);
+		}
 		else if (str && !ft_strncmp(str, "##end", 5))
+		{
+			ft_strdel(&str);
+			ft_putstr("ERROR 2\n");
 			return (1);
+		}
 		else
+		{
+			ft_strdel(&str);
+			ft_putstr("ERROR COpe\n");
 			return (1);
+		}
 	}	
 	else
 		return (0);
 }
 
-void	ft_show(t_farm *farm)
-{
-	t_lst *begin;
-	t_lstlink *head;
-
-	begin = farm->rooms;
-	printf("name: %s x: %d y: %d\n", farm->start.name, farm->start.pos.x, farm->start.pos.y);
-	while (begin != NULL)
-	{
-		printf("name: %s x: %d y: %d\n", begin->room->name, begin->room->pos.x, begin->room->pos.y);
-		begin = begin->next;
-	}
-	printf("name: %s x: %d y: %d\n", farm->end.name, farm->end.pos.x, farm->end.pos.y);
-	head = farm->links;
-	while (head != NULL)
-	{
-		printf("curn: %s nex: %s\n", head->link->curr, head->link->nex);
-		head = head->next;
-	}
-	printf("ROOMNUMB= %d\n", farm->roomnumb);
-}
+// int	check_validation(t_farm *farm, char *str, int *validation)
+// {
+// 	if (*validation == 3 && !ft_strcmp(str, ""))
+// 	{
+// 		ft_mkarray(farm);
+// 		ft_strdel(&str);
+// 		return (0);
+// 	}
+// 	else if (*validation != 3 && !ft_strcmp(str, ""))
+// 	{
+// 		ft_putstr("ERROR space\n");
+// 		ft_strdel(&str);
+// 		return (0);
+// 	}
+// 	if (*validation == 0)
+// 	{
+// 		if (ft_check_start(str))
+// 			return (0);
+// 		ft_num_ant(str, farm, validation);
+// 	}
+// 	else
+// 		ft_begin(str, farm, validation);
+// 	return (1);
+// }
 
 int main(void)
 {
@@ -133,32 +148,22 @@ int main(void)
 	int validation;
 
 	validation = 0;
+	str = NULL;
 	farm.rooms = NULL;
 	ft_bzero(&farm, sizeof(t_farm));
 	while (get_next_line(0, &str) > -1)
 	{
-		if (!ft_strncmp(str, "stop", 4))
+		if (str[0] == '#' && str[1] != '#')
 		{
-			ft_mkarray(&farm);
-			//ft_show(&farm);
 			ft_strdel(&str);
-			break ;
+			continue;
 		}
-		if (validation == 0)
-		{
-			if (ft_check_start(str))
-			{
-				ft_putstr("ERROR\n");
-				ft_strdel(&str);
-				break ;
-			}
-			ft_num_ant(str, &farm, &validation);
-		}
-		else
-			ft_begin(str, &farm, &validation);
+		if (!check_validation(&farm, str, &validation))
+			break;
 		ft_strdel(&str);
 	}
-	ft_strdel(&str);
-	ft_mem_free(&farm);
+	//ft_free_link(&farm.links);
+	//ft_mem_free(&farm);
+	system("leaks lem-in");
 	return (0);
 }

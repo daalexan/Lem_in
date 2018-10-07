@@ -5,7 +5,6 @@ int		ft_busy(int *busy, t_way *way, char *room)
 	int i;
 
 	i = 0;
-	//printf("rooom = %s\n", room);
 	while (i != way->rmnumb)
 	{
 		if (!strcmp(room, way->link[i]))
@@ -74,14 +73,25 @@ void	ft_room_loop(t_ant *ants, t_way *way)
 {
 	int	end;
 	int	busy[way->rmnumb];
+	// int	j;
 
-	end = 0;
+	end = 0;	
 	while (end != way->ant)
 	{
 		ft_move_ant(ants, way, busy, &end);
 		ft_clear_busy(busy, way->rmnumb);
 		ft_putchar('\n');
 	}
+	// end = -1;
+	// while (++end < way->nbr_map)
+	// {
+	// 	j = -1;
+	// 	while(way->maps[end].map[++j] != NULL)
+	// 		ft_strdel(&way->maps[end].map[j]);
+	// }
+	free(way->maps);
+	free(ants->map);
+	free(ants);
 }
 
 void	ft_fill_ants(t_way *way)
@@ -105,18 +115,5 @@ void	ft_fill_ants(t_way *way)
 		j++;
 		i++;
 	}
-	// i = 0;
-	// while (i < way->ant)
-	// {
-	// 	j = 0;
-	// 	printf("ants data: name: %d curr: %d\n", ants[i].name, ants[i].cur_room);
-	// 	while(ants[i].map[j] != NULL)
-	// 	{
-	// 		printf("%s ", ants[i].map[j]);
-	// 		j++;
-	// 	}
-	// 	printf("\n");
-	// 	i++;
-	// }
 	ft_room_loop(ants, way);
 }
